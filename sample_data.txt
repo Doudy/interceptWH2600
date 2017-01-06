@@ -1,0 +1,27 @@
+This note shows some sample data passed as URL arguments
+
+windchillf 19.0
+rainin 0.00
+dailyrainin 0.00
+monthlyrainin 0.06
+solarradiation 0.00
+realtime 1
+windspeedmph 2.01
+baromin 30.66
+rtfreq 5
+lowbatt 0
+windgustmph 2.46
+tempf 19.0
+indoorhumidity 24
+winddir 14
+dewptf 8.1
+PASSWORD password
+ID AAAAAAAA00
+dateutc 2017-1-5 15:39:35
+softwaretype Weather logger V2.1.9
+yearlyrainin 0.06
+UV 0
+humidity 62
+action updateraw
+weeklyrainin 0.06
+indoortempf 72.1

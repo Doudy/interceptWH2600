@@ -1,0 +1,71 @@
+{
+  "system":{
+    "tmpFolder":"/tmp",
+    "listenPort":8084,
+    "listenPortDebug":8084,
+    "windDirSmoothenizer":true
+  },
+  "domoticz":{
+    "devices":{
+      "device":[
+        {
+          "categoryName":"Indoor Temp + Humidity",
+          "domoticzSensorType":82,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Outdoor Temp + Humidity",
+          "domoticzSensorType":82,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Barometer",
+          "domoticzSensorType":1,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Rain",
+          "domoticzSensorType":85,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Wind",
+          "domoticzSensorType":86,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"UV",
+          "domoticzSensorType":87,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Solar Radiation",
+          "domoticzSensorType":20,
+          "domoticzIdx":99999999,
+          "enabled":true
+        },
+        {
+          "categoryName":"Battery Alert",
+          "domoticzSensorType":7,
+          "domoticzIdx":99999999,
+          "enabled":true
+        }
+      ]
+    },
+    "hostName":"domohost_or_ip",
+    "httpBasicAuth":{
+      "passWord":"domopassword",
+      "userName":"domousername"
+    },
+    "portNumber":8080,
+    "protocol":"http",
+    "unitsOfTemperature":"Celcius",
+    "unitsOfWind":"m/s"
+  }
+}
