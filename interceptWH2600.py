@@ -31,7 +31,7 @@ from datetime import datetime
 import math, cmath, scipy
 
 PROGRAM_NAME = 'WH2600 Interceptor'
-VERSION = '1.0.0'
+VERSION = '1.0.2'
 MSG_ERROR = 'Error'
 MSG_INFO = 'Info'
 MSG_EXEC = 'Exec info'
@@ -117,7 +117,8 @@ def updateWU(payload):
 	try:
 		r = requests.get(WU_UPDATE_URL, params=payload)
 	except:
-			print('The server couldn\'t fulfill the request.')
+		logToDomoticz(MSG_ERROR, 'The WU server couldn\'t fulfill the request.')
+		sys.exit(0)
 	else:
 		# everything is fine
 		if isVerbose: print r.text
@@ -151,7 +152,8 @@ def updateDomoDevice(domoDevice, jsonQs):
 			sensorTimedOut = True
 
 	# Checking if the 'Indoor Temp + Humidity' device needs an update
-	if domoDevice['categoryName'] == 'Indoor Temp + Humidity' and domoDevice['domoticzSensorType'] == 82:
+
+	if ('indoortempf' in jsonQs) and domoDevice['categoryName'] == 'Indoor Temp + Humidity' and domoDevice['domoticzSensorType'] == 82:
 		if cfg['domoticz']['unitsOfTemperature']  == 'Celcius':
 			reportedTemp = round(temp_c(jsonQs['indoortempf']), 1)
 		else:
@@ -196,11 +198,11 @@ def updateDomoDevice(domoDevice, jsonQs):
 	# Checking if the 'Rain' device needs an update
 	elif domoDevice['categoryName'] == 'Rain' and domoDevice['domoticzSensorType'] == 85:
 		# Convert inches of rain to mm
-		reportedValue = round(mm(jsonQs['rainin']), 1)
-		reportedValueYear = round(mm(jsonQs['yearlyrainin']), 1)
-		domoValue = round(float(r['result'][0]['RainRate']), 1)
-		if reportedValue != domoValue or sensorTimedOut:
-			if isVerbose: print 'Updating the Domoticz Rain device to', reportedValue, ';', reportedValueYear
+		reportedValue = round(mm(jsonQs['rainin']) * 100, 0)
+		reportedValueYear = round(mm(jsonQs['yearlyrainin']), 0)
+		domoValue = round(float(r['result'][0]['Data'].split(';')[1]), 0)
+		if reportedValueYear != domoValue or sensorTimedOut:
+			if isVerbose: print 'Updating the Domoticz Rain device from ', domoValue, 'to', reportedValue, ';', reportedValueYear
 			if isVerbose and sensorTimedOut: print '<sensorTimedOut>'
 			payload = dict([('type', 'command'), ('param', 'udevice'), ('idx', domoDevice['domoticzIdx']), \
 					('nvalue', 0), ('svalue', str(reportedValue)+';'+str(reportedValueYear))])

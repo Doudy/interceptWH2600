@@ -4,3 +4,4 @@ config.json
 # Ignore compiled files
 *~
 *.pyc
+myNotes.txt
