@@ -1,6 +1,8 @@
 # Ignore the config file
 config.json
 
+sendToGit.sh
+
 # Ignore compiled files
 *~
 *.pyc
