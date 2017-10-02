@@ -31,7 +31,7 @@ from datetime import datetime
 import math, cmath, scipy
 
 PROGRAM_NAME = 'WH2600 Interceptor'
-VERSION = '1.0.2'
+VERSION = '1.0.3'
 MSG_ERROR = 'Error'
 MSG_INFO = 'Info'
 MSG_EXEC = 'Exec info'
@@ -200,7 +200,10 @@ def updateDomoDevice(domoDevice, jsonQs):
 		# Convert inches of rain to mm
 		reportedValue = round(mm(jsonQs['rainin']) * 100, 0)
 		reportedValueYear = round(mm(jsonQs['yearlyrainin']), 0)
-		domoValue = round(float(r['result'][0]['Data'].split(';')[1]), 0)
+		try:
+			domoValue = round(float(r['result'][0]['Data'].split(';')[1]), 0)
+		except:
+			domoValue = 0
 		if reportedValueYear != domoValue or sensorTimedOut:
 			if isVerbose: print 'Updating the Domoticz Rain device from ', domoValue, 'to', reportedValue, ';', reportedValueYear
 			if isVerbose and sensorTimedOut: print '<sensorTimedOut>'
@@ -299,6 +302,7 @@ def domoticzAPI(payload):
 	try:
 		r = requests.get(cfg['domoticz']['protocol'] + '://' + cfg['domoticz']['hostName'] + ':' + \
 				str(cfg['domoticz']['portNumber']) + '/json.htm', \
+				verify=False, \
 				auth=(cfg['domoticz']['httpBasicAuth']['userName'], cfg['domoticz']['httpBasicAuth']['passWord']), \
 				params=payload)
 	except:
@@ -306,7 +310,7 @@ def domoticzAPI(payload):
 					str(cfg['domoticz']['portNumber']) + '/json.htm\'', sys.exc_info()[0])
 		sys.exit(0)
 	if r.status_code <> 200:
-		print 'Unexpected status code from Domoticz: ' + r.status_code
+		print 'Unexpected status code from Domoticz: ' + str(r.status_code)
 		sys.exit(0)
 	try:
 		rJsonDecoded = r.json()
